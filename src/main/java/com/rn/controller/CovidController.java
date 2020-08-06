@@ -1,5 +1,6 @@
 package com.rn.controller;
 
+import com.rn.com.rn.models.CountryStatesDetails;
 import com.rn.com.rn.models.Global;
 import com.rn.service.CovidService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class CovidController {
     @ModelAttribute
     public void modelData(Model model){
         model.addAttribute("listCountry",service.getAllCountries());
+        model.addAttribute("globalData",service.getWorldWideCovidDetails());
     }
 
     @GetMapping("/")
@@ -40,17 +42,11 @@ public class CovidController {
     @GetMapping("/home")
     public String getHome(Model model, @RequestParam("name") String name) throws URISyntaxException {
         System.out.println("inside controller");
-        String url = "https://covid19.mathdro.id/api/countries/" + name;
-        URI uri = new URI(url);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-
-        HttpEntity<String> entity = new HttpEntity<String>(headers);
-        service.getAllCountries();
-
-        Global global = restTemplate.getForObject(uri, Global.class);
+        final Global global = service.getCovidDetailsByCountryName(name);
         System.err.println(global);
+        List<CountryStatesDetails> confirmed = service.getCountryStatesDetailsByCountryNameConfirmed(name);
         model.addAttribute("data", global);
+        model.addAttribute("confirmed", confirmed);
         return "home";
     }
 }

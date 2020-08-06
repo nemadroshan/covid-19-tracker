@@ -20,6 +20,9 @@
 
 <h3>${data}</h3>
 <hr>
+  <h3>Global Data</h3>
+  <h4>${globalData}</h4>
+<hr>
 <section>
     <form:form modelAttribute="listCountry" action="home" method="get" >
         <label for="contry">Choose a Country:</label>
@@ -35,5 +38,9 @@
 
     <h3>${data}</h3>
 </section>
+
+<hr>
+<h2>country state details</h2><br>
+<h5>${confirmed}</h5>
 </body>
 </html>
