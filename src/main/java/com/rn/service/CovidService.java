@@ -1,5 +1,8 @@
 package com.rn.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rn.com.rn.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -18,28 +21,27 @@ public class CovidService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public List<String> getAllCountries(){
-        System.out.println("CovidService.getAllCountries");
-
+    public Map<String,String> getAllCountries(){
+        Map<String,String> map = new HashMap<>();
         ListCountries forObject = restTemplate.getForObject("https://covid19.mathdro.id/api/countries", ListCountries.class);
         List<Country> countries = forObject.getCountries();
         List<String> countryList = new ArrayList<>();
         for(Country c : countries){
-            countryList.add(c.getName());
+            map.put(c.getIso3(),c.getName());
         }
-        System.out.println(countryList);
-        return countryList;
+
+        return map;
     }
 
     public Map<String,String> getWorldWideCovidDetails(){
-        System.out.println("CovidService.getWorldWideCovidDetails");
+
         Map<String,String> map = new HashMap<>();
         Global globalData = restTemplate.getForObject("https://covid19.mathdro.id/api/", Global.class);
         map.put("confirmed",globalData.getConfirmed().getValue());
         map.put("recovered",globalData.getRecovered().getValue());
         map.put("death",globalData.getDeaths().getValue());
         map.put("lastUpdated",globalData.getLastUpdate());
-        System.out.println(map);
+
         return map;
     }
 
@@ -55,13 +57,39 @@ public class CovidService {
         return global;
     }
 
-    public List<CountryStatesDetails> getCountryStatesDetailsByCountryNameConfirmed(String countryName){
-        System.out.println("CovidService.getConCountryStatesDetails");
+    public List<CountryStatesDetails> getCountryStatesDetailsByCountryNameConfirmed(String cName) throws URISyntaxException, JsonProcessingException {
+        System.err.println("CovidService.getConCountryStatesDetails");
+        System.err.println("Name : : "+cName);
+
+
+        String[] split = cName.split(" ");
+        StringBuilder builder = new StringBuilder("");
+        for(int i=0;i<split.length;i++) {
+            builder.append(split[i]+"%20");
+        }
+        String cs = builder.toString();
+        System.out.println("New String :: "+cs);
+        String s = cs.substring(0,cs.length()-3);
+
+
+        System.err.println("Name : : "+s);
+
         List<CountryStatesDetails> details =null;
-        String url = "https://covid19.mathdro.id/api/countries/"+countryName+"/confirmed";
-        ListCountryStatesDetails listCountryStatesDetails = restTemplate.getForObject(url, ListCountryStatesDetails.class);
-        details= listCountryStatesDetails.getCountryStatesDetails();
-        System.out.println(details);
-        return  details;
+        String url = "https://covid19.mathdro.id/api/countries/"+s+"/confirmed";
+        System.err.println("URL :: "+url);
+        URI uri = new URI(url);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        String forEntity = restTemplate.getForObject(uri,String.class);
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<CountryStatesDetails> details1 = mapper.readValue(forEntity, new TypeReference<List<CountryStatesDetails>>() {
+        });
+
+        System.out.println(details1);
+        for(CountryStatesDetails c :details1){
+            System.out.println(c);
+        }
+        return  details1;
     }
 }

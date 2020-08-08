@@ -1,5 +1,6 @@
 package com.rn.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rn.com.rn.models.CountryStatesDetails;
 import com.rn.com.rn.models.Global;
 import com.rn.service.CovidService;
@@ -40,7 +41,7 @@ public class CovidController {
     }
 
     @GetMapping("/home")
-    public String getHome(Model model, @RequestParam("name") String name) throws URISyntaxException {
+    public String getHome(Model model, @RequestParam("name") String name) throws URISyntaxException, JsonProcessingException {
         System.out.println("inside controller");
         final Global global = service.getCovidDetailsByCountryName(name);
         System.err.println(global);
