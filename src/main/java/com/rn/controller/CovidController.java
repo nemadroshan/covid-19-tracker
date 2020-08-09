@@ -41,13 +41,24 @@ public class CovidController {
     }
 
     @GetMapping("/home")
-    public String getHome(Model model, @RequestParam("name") String name) throws URISyntaxException, JsonProcessingException {
-        System.out.println("inside controller");
-        final Global global = service.getCovidDetailsByCountryName(name);
-        System.err.println(global);
-        List<CountryStatesDetails> confirmed = service.getCountryStatesDetailsByCountryNameConfirmed(name);
-        model.addAttribute("data", global);
-        model.addAttribute("confirmed", confirmed);
+    public String getHome(Model model, @RequestParam("name") String name)  {
+        try {
+            System.out.println("inside controller");
+            final Global global = service.getCovidDetailsByCountryName(name);
+            System.err.println(global);
+            List<CountryStatesDetails> confirmed = service.getCountryStatesDetailsByCountryNameConfirmed(name);
+            String conNum = global.getConfirmed().getValue();
+            String recNo = global.getRecovered().getValue();
+            String deathNo = global.getDeaths().getValue();
+            model.addAttribute("conNum", conNum);
+            model.addAttribute("recNo", recNo);
+            model.addAttribute("deathNo", deathNo);
+            model.addAttribute("confirmed", confirmed);
+        } catch (JsonProcessingException jpe) {
+            jpe.printStackTrace();
+        } catch (URISyntaxException ure) {
+            ure.printStackTrace();
+        }
         return "home";
     }
 }

@@ -62,20 +62,20 @@ public class CovidService {
         System.err.println("Name : : "+cName);
 
 
-        String[] split = cName.split(" ");
+        /*String[] split = cName.split(" ");
         StringBuilder builder = new StringBuilder("");
         for(int i=0;i<split.length;i++) {
             builder.append(split[i]+"%20");
         }
         String cs = builder.toString();
         System.out.println("New String :: "+cs);
-        String s = cs.substring(0,cs.length()-3);
+        String s = cs.substring(0,cs.length()-3);*/
 
 
-        System.err.println("Name : : "+s);
+        //System.err.println("Name : : "+s);
 
         List<CountryStatesDetails> details =null;
-        String url = "https://covid19.mathdro.id/api/countries/"+s+"/confirmed";
+        String url = "https://covid19.mathdro.id/api/countries/"+cName+"/confirmed";
         System.err.println("URL :: "+url);
         URI uri = new URI(url);
         HttpHeaders headers = new HttpHeaders();
@@ -92,4 +92,6 @@ public class CovidService {
         }
         return  details1;
     }
+
+
 }
