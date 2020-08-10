@@ -1,5 +1,5 @@
 # Covid-19-Tracker
-* This web application developed to lated details about covid-19 cases
+* This web application developed to get letest details about covid-19 cases
 * this application buid using java,Spring Boot,RestTemplate
 
 # Application Requirements
