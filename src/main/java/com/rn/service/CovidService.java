@@ -27,7 +27,7 @@ public class CovidService {
         List<Country> countries = forObject.getCountries();
         List<String> countryList = new ArrayList<>();
         for(Country c : countries){
-            map.put(c.getIso3(),c.getName());
+            map.put(c.getIso2(),c.getName());
         }
 
         return map;
