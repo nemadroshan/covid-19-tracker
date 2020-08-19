@@ -1,4 +1,4 @@
-package com.rn.com.rn.models;
+package com.rn.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
-public class Deaths implements Serializable {
+public class Confirmed implements Serializable {
     @JsonProperty("value")
     private String value;
     @JsonProperty("detail")

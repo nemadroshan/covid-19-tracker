@@ -1,4 +1,4 @@
-package com.rn.com.rn.models;
+package com.rn.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
