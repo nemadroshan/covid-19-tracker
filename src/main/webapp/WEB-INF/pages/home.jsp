@@ -129,7 +129,7 @@
                 <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
                     <div class="card-header"> Confirmed</div>
                     <div class="card-body">
-                        <h5 class="card-title">Total COnfirmed Cases </h5>
+                        <h5 class="card-title">Total Confirmed Cases </h5>
                         <p class="card-text">${conNum}</p>
                     </div>
                 </div>
