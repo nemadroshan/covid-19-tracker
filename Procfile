@@ -1,0 +1,1 @@
+web: java -jar target/covid19-tracker-0.0.1-SNAPSHOT.war
